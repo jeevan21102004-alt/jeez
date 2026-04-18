@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-bg-base: var(--bg-base);
+  --color-bg-card: var(--bg-card);
+  --color-txt-main: var(--txt-main);
+  --color-txt-muted: var(--txt-muted);
+  --color-border-line: var(--border-line);
+  --color-accent-from: var(--accent-from);
+  --color-accent-to: var(--accent-to);
+  --color-copper-main: var(--copper-main);
+}
+
+:root {
+  font-family: 'Inter', sans-serif;
+  color-scheme: light;
+  
+  --bg-base: #FFFFFF;
+  --bg-card: #F8FAFC;
+  --txt-main: #111827;
+  --txt-muted: #6B7280;
+  --border-line: #E5E7EB;
+  --accent-from: #B76E79; 
+  --accent-to: #B76E79;   
+  --copper-main: #B76E79; 
+  --accent-glow: rgba(183, 110, 121, 0.4);
+}
+
+html.dark {
+  color-scheme: dark;
+  
+  --bg-base: #050505;
+  --bg-card: #121212;
+  --txt-main: #E0E0E0;
+  --txt-muted: rgba(224, 224, 224, 0.7);
+  --border-line: #222222;
+  --accent-from: #D4AF37;
+  --accent-to: #F1D592;
+  --copper-main: #B87333;
+  --accent-glow: rgba(212, 175, 55, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, div, p, span, h1, h2, h3, h4, header, nav, aside, main, svg, path, rect, circle {
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, fill 0.4s ease, stroke 0.4s ease;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-base);
+  color: var(--txt-main);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ── Input / Select ───────────────────────────────── */
+.input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border-line);
+  background: var(--bg-card);
+  color: var(--txt-main);
+  padding: 10px 14px;
+  outline: none;
+  font-size: 0.875rem;
+  transition: border-color 0.15s, box-shadow 0.15s, background-color 0.4s ease;
+}
+
+.input:focus {
+  border-color: var(--accent-from);
+  box-shadow: 0 0 0 3px rgba(183, 110, 121, 0.2);
+}
+html.dark .input:focus {
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.input::placeholder {
+  color: var(--txt-muted);
+}
+
+select.input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+html.dark select.input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a3a3b3' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+}
+
+select.input option {
+  background: var(--bg-card);
+  color: var(--txt-main);
+}
+
+/* ── Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 9999px;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(183, 110, 121, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(183, 110, 121, 0.7);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.4);
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.7);
+}
+
+/* ── Date Input ───────────────────────────────────── */
+input[type="date"] {
+  color-scheme: light;
+}
+html.dark input[type="date"] {
+  color-scheme: dark;
+}
+
+/* ── Animations ────────────────────────────────────── */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}

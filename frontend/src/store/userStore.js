@@ -1,0 +1,65 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+export const useUserStore = create(
+  persist(
+    (set) => ({
+      onboarded: false,
+      profile: {
+        name: '',
+        age: 25,
+        gender: 'Female',
+        heightCm: 170,
+        weightKg: 70,
+        targetWeightKg: 65,
+        timelineWeeks: 12,
+        goal: 'Lose Weight',
+        activityLevel: 'Moderately Active',
+        calorieGoal: 2000,
+        protein: 140,
+        carbs: 220,
+        fats: 67,
+        waterGoal: 8,
+        theme: 'dark',
+        units: 'metric',
+        body_fat_pct: '',
+        muscle_mass_pct: '',
+        target_body_fat_pct: '',
+        target_muscle_mass_pct: '',
+      },
+      streakDays: 0,
+      setOnboarded: (onboarded) => set({ onboarded }),
+      updateProfile: (patch) =>
+        set((s) => ({ profile: { ...s.profile, ...patch } })),
+      setStreakDays: (days) => set({ streakDays: days }),
+      resetAll: () =>
+        set({
+          onboarded: false,
+          profile: {
+            name: '',
+            age: 25,
+            gender: 'Female',
+            heightCm: 170,
+            weightKg: 70,
+            targetWeightKg: 65,
+            timelineWeeks: 12,
+            goal: 'Lose Weight',
+            activityLevel: 'Moderately Active',
+            calorieGoal: 2000,
+            protein: 140,
+            carbs: 220,
+            fats: 67,
+            waterGoal: 8,
+            theme: 'dark',
+            units: 'metric',
+            body_fat_pct: '',
+            muscle_mass_pct: '',
+            target_body_fat_pct: '',
+            target_muscle_mass_pct: '',
+          },
+          streakDays: 0,
+        }),
+    }),
+    { name: 'calai-user-store' },
+  ),
+);
