@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.database import Base, SessionLocal, engine
-from backend.routes import ai, ai_food, analytics, analyze_body, food, logs, user
+from backend.routes import ai, ai_calories, ai_food, analytics, analyze_body, food, logs, user
 
 Base.metadata.create_all(bind=engine)
 
@@ -45,3 +45,4 @@ app.include_router(ai.router)
 app.include_router(analytics.router)
 app.include_router(analyze_body.router, prefix="/api")
 app.include_router(ai_food.router, prefix="/api")
+app.include_router(ai_calories.router, prefix="/api")

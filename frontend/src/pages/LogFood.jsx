@@ -27,6 +27,10 @@ export default function LogFood() {
   });
   const [aiDetected, setAiDetected] = useState(null);
   const [backendLogs, setBackendLogs] = useState([]);
+  const [aiTextInput, setAiTextInput] = useState('');
+  const [aiImageFile, setAiImageFile] = useState(null);
+  const [aiCaloriesResult, setAiCaloriesResult] = useState(null);
+  const [aiCaloriesLoading, setAiCaloriesLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -110,6 +114,42 @@ export default function LogFood() {
       carbs_g: +(manual.carbs_g * ratio).toFixed(1),
       fats_g: +(manual.fats_g * ratio).toFixed(1),
     });
+  };
+
+  const analyzeAICalories = async () => {
+    if (!aiTextInput.trim() && !aiImageFile) {
+      toast.error('Enter food text or choose an image');
+      return;
+    }
+
+    setAiCaloriesLoading(true);
+    try {
+      const form = new FormData();
+      if (aiTextInput.trim()) {
+        form.append('text', aiTextInput.trim());
+      }
+      if (aiImageFile) {
+        form.append('file', aiImageFile);
+      }
+
+      const res = await fetch(`${API}/api/ai-calories`, {
+        method: 'POST',
+        body: form,
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.detail || 'AI calorie analysis failed');
+      }
+
+      const data = await res.json();
+      setAiCaloriesResult(data);
+      toast.success('AI calorie estimate ready');
+    } catch (error) {
+      toast.error(error?.message || 'AI calorie analysis failed');
+    } finally {
+      setAiCaloriesLoading(false);
+    }
   };
 
   // Meal summary
@@ -228,6 +268,44 @@ export default function LogFood() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2 rounded-xl border border-border-line bg-bg-card p-3">
+          <h3 className="text-sm font-semibold text-txt-main">AI Calorie Estimator</h3>
+          <input
+            value={aiTextInput}
+            onChange={(e) => setAiTextInput(e.target.value)}
+            placeholder="e.g., 2 dosa and chutney"
+            className="input"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setAiImageFile(e.target.files?.[0] || null)}
+            className="input"
+          />
+          <Button onClick={analyzeAICalories} disabled={aiCaloriesLoading}>
+            {aiCaloriesLoading ? 'Analyzing...' : 'Estimate Calories'}
+          </Button>
+
+          {aiCaloriesResult?.items?.length > 0 && (
+            <div className="space-y-2 rounded-lg border border-[var(--accent-from)]/20 bg-[var(--accent-from)]/5 p-2.5">
+              {aiCaloriesResult.items.map((item, idx) => (
+                <div
+                  key={`${item.name}-${idx}`}
+                  className="flex items-center justify-between rounded-lg border border-border-line bg-bg-card px-2.5 py-2 text-xs text-txt-main/85"
+                >
+                  <span>{item.name} x {item.quantity}</span>
+                  <span>
+                    {typeof item.calories === 'number' ? `${item.calories} kcal` : 'Food not found in database'}
+                  </span>
+                </div>
+              ))}
+              <p className="text-right text-sm font-semibold text-txt-main">
+                Total: {aiCaloriesResult.totalCalories || 0} kcal
+              </p>
             </div>
           )}
         </div>

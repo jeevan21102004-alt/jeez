@@ -6,4 +6,5 @@ python-multipart==0.0.20
 pillow==11.3.0
 requests==2.32.4
 anthropic==0.67.0
+openai==1.102.0
 python-dotenv==1.1.1
