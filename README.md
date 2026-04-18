@@ -55,8 +55,23 @@ Unknown food handling:
 ## Stack
 - Frontend: React + Vite + Tailwind + Framer Motion + Recharts + Zustand + React Query
 - Backend: FastAPI + SQLAlchemy + SQLite
-- AI: Claude vision endpoint + OpenAI calorie extraction (set `ANTHROPIC_API_KEY` and `OPENAI_API_KEY` in `.env`)
+- AI: Claude vision endpoint + OpenAI calorie extraction (configure keys via `.env`)
 - Food data: Open Food Facts search API
+
+## Environment Setup
+1. Copy `.env.example` to `.env`
+2. Fill API keys as needed:
+
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+Notes:
+- `/api/ai-calories` currently uses `OPENAI_API_KEY`.
+- Existing image analysis route uses `ANTHROPIC_API_KEY`.
+- `GEMINI_API_KEY` is included as a placeholder for optional future Gemini integration.
 
 ## Run Backend
 ```bash
